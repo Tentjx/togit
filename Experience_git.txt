@@ -1,0 +1,89 @@
+001：创建git版本库。
+    第一步： 创建一个空的目录：
+             ~$ mkdir mygit
+             ~$ cd mygit
+             ~/mygit$ pwd
+             /home/tjxubuntu/mygit
+     第二步：把这个目录设置成一个版本库
+              ~/mygit$ git init
+              Initialized empty Git repository in /home/tjxubuntu/mygit/.git/
+   
+
+002:把文件添加到git里面去
+        第一步：首先把需要进行管理的文件放置在这个版本库文件目录下；然后进入文件所在的目录进行操作 
+        ~/togit/new$ git add lianxi.txt
+        第二步：提交事务
+        ~/togit/new$ git commit -m “提示信息”
+
+003：查看git状态
+       ~/togit/new$ git status
+
+004 ：查看具体改变内容
+~/togit/new$ git diff  happy.txt
+
+005：查看提交log
+~/togit/new$ git log --pretty=oneline
+
+006 ：版本回退
+    ~/togit/new$ git reset --hard HEAD^   //上一个版本
+   ~/togit/new$ git reset --hard HEAD^^  //上2个版本
+  ~/togit/new$ git reset --hard HEAD~100 //上100个版本
+
+007 ：到指定版本 
+   ~/togit/new$ git reset --hard 版本id
+   ~/togit/new$ git reset --hard 1234567
+
+008：查看命令log 可以看到  版本id
+        ~/togit/new$ git reflog
+
+009：查看文件内容
+    cat happy.txt
+
+010：在git add之前撤销修改
+     ~/mygit$ git checkout -- happy.txt
+
+011：在git add后 commit之前撤销修改
+    ~/mygit$ git reset HEAD happy.txt
+
+012:commit之后撤销修改
+    回退修改前的版本
+
+013：文件删除
+   当在文件夹那文件删除后。git会扑捉到删除文件的这一个动作这时你有2个选择:
+     1：恢复文件
+       回退删除钱的版本
+     2：从git仓库里删除这个文件并commit  
+         ~/mygit$ git rm zxc
+          ~/mygit$ git commit -m "remove"
+014：分支管理创建新分支dev
+      ~/mygit$ git branch dev
+
+    
+015：切换到某一个分支
+      ~/mygit$ git checkout dev
+
+016：查看当前分支
+    ~/mygit$ git branch 
+   显示内容中带*的就是当前分支
+
+016：把分支上的工作合并到工程里
+   （1）先切回主分支 master
+         ~/mygit$ git checkout master
+     （2）把分支dev中的内容合并到当前分支
+        ~/mygit$ git merge dev
+
+017：删除某一个分支
+           ~/mygit$ git branch -d dev
+
+018：创建并切换到某一分支
+
+    ~/mygit$  git checkout -b dev    问题将要出现我不信
+
+
+
+
+
+
+
+          
+
