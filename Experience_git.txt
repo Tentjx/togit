@@ -77,13 +77,67 @@
 
 018：创建并切换到某一分支
 
-    ~/mygit$  git checkout -b dev    问题将要出现我不信
+    ~/mygit$  git checkout -b dev   
+    
+    
+019：当dev修改的同时 master分支也做了修改  这时合并分支就会出现冲突  
+ 
+  在dev分支上工作
+    ~/mygit$ git checkout -b dev
+     ~/mygit$ git add happy.txt
+    ~/mygit$ git commit -m "add git note from 010-014"
+
+   回到master分支继续工作
+     ~/mygit$ git checkout master
+     ~/mygit$ git add happy.txt
+     ~/mygit$ git commit -m "add git note from 015-018"
+
+把dev分支合并到master分支  出现冲突
+~/mygit$ git merge dev
+     Auto-merging happy.txt
+     CONFLICT (content): Merge conflict in happy.txt
+      Automatic merge failed; fix conflicts and then commit the result.
+
+ 
+手动修改后在提交
 
 
+查看合并情况：
+~/mygit$  git log --graph --pretty=oneline --abbrev-commit
 
 
+* 43d27eb 我不信
+*   ec4e7ee Merge branch 'dev'
+|\  
+| * 3ce2c77 add git note from 010-014
+* | 5e38cb1 add git note from 015-018
+|/  
+* 361f27e remove
+
+删除分支
+         ~/mygit$ git branch -d dev
+
+020：在合并div分支时加上 --no-ff 参数 
+  ~/mygit$ git merge --no-ff -m "merge with no-ff" div
+           好处：合并分支时，加上--no-ff参数就可以用普通模式合并，合并后的历史有分支，能看出来曾经做过合并，而fast forward合并就看不出来曾经做过合并
 
 
+021：Bug分支：
+     当你接到一个修复一个代号101的bug的任务时，很自然地，你想创建一个分支issue-101来修复它，但是，等等，当前正在dev上进行的工作还没有提交：，Git还提供了一个stash功能，可以把当前工作现场“储藏”起来，等以后恢复现场后继续工作
+       1。~/mygit$ git stash  保存当前分支dev上的工作现场
+       2.切换到master分支 并创建iss-100分支来进行bug修复并删除iss-100分支
+      ~/mygit$ git checkout master
 
-          
+      ~/mygit$   git checkout -b iss-100
+      ~/mygit$ git add s.txt
+      ~/mygit$ git commit -m "sweap a bug in iss-100"
+
+     ~/mygit$ git checkout master
+     ~/mygit$ git merge iss-100
+
+~/mygit$ git branch -d iss-100
+
+   3.切换到dev分支继续工作   先回复之前保存的工作现场
+       ~/mygit$  git stash list   查看现场列表
+      ~/mygit$ git stash pop    回复现场便删除保存
 
