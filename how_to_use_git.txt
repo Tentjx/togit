@@ -141,3 +141,35 @@
        ~/mygit$  git stash list   查看已保存的现场列表
       ~/mygit$ git stash pop    回复现场便删除保存
 
+
+022获得ssh key
+     $ ssh-keygen -t rsa -C "youremail@example.com"
+
+023把ssh公匙添加到github上
+     登陆GitHub，打开“Account settings”，“SSH Keys”页面：
+然后，点“Add SSH Key”，填上任意Title，在Key文本框里粘贴id_rsa.pub文件的内容
+
+024在github上创建一个远程仓库叫togit
+     登陆GitHub，然后，在右上角找到“Create a new repo”按钮，创建一个新的仓库：
+
+025把本地git仓库和github上的远程仓库关联起来
+      ~/mygit$ git remote add origin git@github.com:Tentjx/togit.git
+
+026先把github上的远程库clone到本地
+     :~/mygit$ git clone git@github.com:Tentjx/togit.git
+
+//第一次使用clone的提示
+Cloning into 'togit'...
+The authenticity of host 'github.com (192.30.252.129)' can't be established.
+RSA key fingerprint is 16:27:ac:a5:76:28:2d:36:63:1b:56:4d:eb:df:a6:48.
+Are you sure you want to continue connecting (yes/no)? yes
+//输入yes
+Warning: Permanently added 'github.com,192.30.252.129' (RSA) to the list of known hosts.
+
+027:把本地git和远程git同步
+    1.先在本地add和commit
+    2.进入远程库的目录下输入以下命令
+  ~/mygit/togit$ git push -u origin master  （第一次）
+    ~/mygit/togit$ git push origin master  （以后）
+
+
