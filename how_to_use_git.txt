@@ -172,4 +172,34 @@ Warning: Permanently added 'github.com,192.30.252.129' (RSA) to the list of know
   ~/mygit/togit$ git push -u origin master  （第一次）
     ~/mygit/togit$ git push origin master  （以后）
 
+028标签
+    发布一个版本时，我们通常先在版本库中打一个标签，这样，就唯一确定了打标签时刻的版本。将来无论什么时候，取某个标签的版本，就是把那个打标签的时刻的历史版本取出来。所以，标签也是版本库的一个快照。
+
+029为当前commit添加标签
+   $ git tag v1.0
+030为指定版本添加标签
+     $ git tag v1.0 6224937     （v1.0是标签名；6224937是版本提交id）
+
+031为标签加上文字说明
+     $ git tag -a v0.1 -m "version 0.1 released" 3628164
+
+032查看指定标签及文字说明
+      $git show <v0.1>
+
+033查看所有标签
+        $git tag
+
+034删除本地的tag 
+    $ git tag -d v0.1
+035推送tag到远程库
+     $ git push origin v1.0   （推送一个）
+
+     $ git push origin --tags  （推送所有）
+
+036 删除已推送到远程的tag
+    1.先从本地删除tag
+          $ git tag -d v1.1
+     2.删除远程tag 
+        $ git push origin :refs/tags/v1.1
+          
 
