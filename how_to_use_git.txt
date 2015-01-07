@@ -138,6 +138,6 @@
 ~/mygit$ git branch -d iss-100
 
    3.切换到dev分支继续工作   先回复之前保存的工作现场
-       ~/mygit$  git stash list   查看现场列表
+       ~/mygit$  git stash list   查看已保存的现场列表
       ~/mygit$ git stash pop    回复现场便删除保存
 
