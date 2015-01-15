@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_margin="5dp" >
+
+        <TextView
+            android:id="@+id/gqfrag_tv_songName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:text="当我孤单的时候还可以抱着你"
+            android:textColor="#000000"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/gqfrag_tv_songer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/gqfrag_tv_songName"
+            android:text="郑源"
+            android:textColor="#292421"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/gqfrag_tv_toaltime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:text="04:05"
+            android:textColor="#000000" />
+
+        <ImageView
+            android:id="@+id/gqfrag_img_playing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/gqfrag_tv_toaltime"
+            android:layout_alignTop="@+id/gqfrag_tv_songer"
+            android:layout_marginLeft="18dp"
+            android:src="@drawable/music_play"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+</LinearLayout>
