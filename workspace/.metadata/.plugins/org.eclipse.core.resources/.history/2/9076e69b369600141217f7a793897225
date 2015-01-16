@@ -1,0 +1,25 @@
+package com.example.paints;
+
+import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Paint.Style;
+import android.view.View;
+
+public class MyView extends View {
+
+	public MyView(Context context) {
+		super(context);
+	}
+
+	@Override
+	protected void onDraw(Canvas canvas) {
+		Paint paint_blue=new Paint();
+		paint_blue.setColor(Color.BLUE);
+		paint_blue.setStyle(Style.STROKE);
+		paint_blue.setStrokeWidth(10);
+		canvas.drawCircle(110, 150, 60, paint_blue);
+		
+	}
+}

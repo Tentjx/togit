@@ -1,0 +1,41 @@
+package com.example.activity;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.example.entity.GetLrcInfo;
+import com.example.entity.Lrc;
+import com.example.entity.LrcView;
+import com.example.localmusic.R;
+
+import android.app.Activity;
+import android.os.Bundle;
+
+public class LrcActivity extends Activity {
+private GetLrcInfo getLrcInfo;
+private List<Lrc> lrcList = new ArrayList<Lrc>();
+
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+	// TODO Auto-generated method stub
+	super.onCreate(savedInstanceState);
+	setContentView(R.layout.lrc);
+	String musicPathString="/storage/sdcard/baidu/丁当-痛.mp3";
+	//LrcView lrcView=(LrcView) findViewById(R.id.showlrc);
+	 getLrcInfo=new GetLrcInfo();
+     getLrcInfo.readLrc(musicPathString);
+     lrcList=getLrcInfo.getLrcList();
+    String s1= lrcList.get(0).getLrcString();
+    String s2= lrcList.get(1).getLrcString();
+    String s3= lrcList.get(2).getLrcString();
+    String s4= lrcList.get(3).getLrcString();
+    String s5= lrcList.get(4).getLrcString();
+    String s6= lrcList.get(5).getLrcString();
+    String s7= lrcList.get(6).getLrcString();
+    String s8= lrcList.get(7).getLrcString();
+    String s9= lrcList.get(8).getLrcString();
+    String s10= lrcList.get(9).getLrcString();
+
+  //   lrcView.setmLrcList(lrcList);
+}
+}

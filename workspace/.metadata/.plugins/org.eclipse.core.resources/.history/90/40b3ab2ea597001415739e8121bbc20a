@@ -1,0 +1,102 @@
+package com.example.activity;
+
+import java.util.List;
+
+import com.example.adapter.SongsListViewAdapter;
+import com.example.entity.Exitactivity;
+import com.example.entity.GetListInfo;
+import com.example.entity.Music;
+import com.example.localmusic.R;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.AdapterView.OnItemClickListener;
+
+public class CurrentPlayList extends Activity implements OnClickListener {
+	private LinearLayout linear_back;
+	private LinearLayout linear_musicinfo;
+	private LinearLayout linear_search;
+	private ListView playListView;
+     @Override
+    protected void onCreate(Bundle savedInstanceState) {
+    	// TODO Auto-generated method stub
+    	super.onCreate(savedInstanceState);
+    	requestWindowFeature(Window.FEATURE_NO_TITLE);
+		this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+				WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		setContentView(R.layout.bflb_playlist_activity);
+		Exitactivity.getInstance().addActivity(this);
+		linear_back = (LinearLayout) findViewById(R.id.playlist_linear_back);
+		linear_back.setOnClickListener(this);
+
+		linear_musicinfo = (LinearLayout) findViewById(R.id.bottom_music_info);
+		linear_musicinfo.setOnClickListener(this);
+
+		linear_search = (LinearLayout) findViewById(R.id.bottom_search);
+		linear_search.setOnClickListener(this);
+
+		playListView = (ListView) findViewById(R.id.playlist_listview);
+		List<Music> musicList = MainActivity.musicList;
+		SongsListViewAdapter adapter = new SongsListViewAdapter(this, musicList);
+		playListView.setAdapter(adapter);
+		
+		playListView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+
+				Music music = (Music) playListView.getItemAtPosition(arg2);
+				String musicPath = music.getMusicPath();
+
+				int position = GetListInfo.getPosition(musicPath,
+						MainActivity.musicList);
+
+				MyFragment.sendBroad(musicPath);
+
+				Intent intent = new Intent(CurrentPlayList.this,
+						PlayMusicAcitvity.class);
+				intent.putExtra("position", position);
+				startActivity(intent);
+			}
+		});
+    }
+ 	@Override
+ 	protected void onResume() {
+ 		super.onResume();
+
+ 		TextView tv_bottom_musicName = (TextView) findViewById(R.id.musicing_nusicname);
+ 		TextView tv_bottom_singer = (TextView) findViewById(R.id.musicing_singer);
+
+ 		SharedPreferences playingPreferences = getSharedPreferences(
+ 				"playing_music", Activity.MODE_PRIVATE);
+ 		String musicInfoName = playingPreferences.getString("musicName", "");
+ 		String musicInfoSinger = playingPreferences.getString("singer", "");
+
+ 		tv_bottom_musicName.setText(musicInfoName);
+ 		tv_bottom_singer.setText(musicInfoSinger);
+ 	}
+	@Override
+	public void onClick(View arg0) {
+		int id = arg0.getId();
+		if (id == R.id.playlist_linear_back) {
+	
+			finish();
+
+		} else if (id == R.id.bottom_music_info) {
+
+		} else if (id == R.id.bottom_search) {
+
+		}		
+	}
+}

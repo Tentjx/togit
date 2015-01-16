@@ -1,0 +1,177 @@
+package com.example.activity;
+
+import com.example.entity.Music;
+
+import com.example.entity.TimeFormat;
+import com.example.localmusic.R;
+import com.example.service.PlayMusicSevice;
+
+
+import android.R.integer;
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.SeekBar;
+import android.widget.TextView;
+import android.widget.Toast;
+
+public class PlayMusicAcitvity extends Activity implements OnClickListener {
+	private int position=0;
+    private String music;
+	private String singer;
+	private String time;
+	//private int IsFirst = 0;
+	private LinearLayout playactivity_linear_back;
+	private TextView tv_musicing_singer;
+	private TextView tv_musicing_album;
+	private TextView tv_musicing_musicName;
+	private TextView tv_totaltime;
+	private TextView tv_music_lrc;
+	private TextView tv_currentime;
+	private SeekBar progressSeekBar;
+	private ImageView img_pre;
+	private ImageView img_play;
+	private ImageView Img_next;
+	private ImageView img_currentList;
+	private ImageView img_repeat;
+	private ImageView img_shuffle;
+//	private int musicId;
+	private String musicPath;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+				WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		setContentView(R.layout.playing_music);
+		//IsFirst += 1;
+
+		Intent intent = getIntent();
+		position = intent.getIntExtra("position", 0);
+		music = intent.getStringExtra("musicName");
+		singer = intent.getStringExtra("singer");
+		time = intent.getStringExtra("totalTime");
+		musicPath = intent.getStringExtra("musicPath");
+
+Toast.makeText(this, music+""+singer+""+time+""+musicPath+"----"+position, 0).show();
+
+		img_currentList = (ImageView) findViewById(R.id.img_currentList);
+		img_repeat = (ImageView) findViewById(R.id.img_repeat);
+		img_shuffle = (ImageView) findViewById(R.id.img_shuffle);
+
+		img_pre = (ImageView) findViewById(R.id.Img_pre);
+		img_play = (ImageView) findViewById(R.id.img_play);
+		Img_next = (ImageView) findViewById(R.id.Img_next);
+  
+		img_currentList.setOnClickListener(this);
+		img_repeat.setOnClickListener(this);
+		img_shuffle.setOnClickListener(this);
+		img_pre.setOnClickListener(this);
+		img_play.setOnClickListener(this);
+		Img_next.setOnClickListener(this);
+
+
+	
+
+//		musicPath = music.getMusicPath();
+//		String musicName = music.getMusicName();
+//		String singer = music.getSinger();
+//		String totalTime = TimeFormat
+//				.changeTime((int) music.getMusicTime());
+//		tv_musicing_singer.setText(singer);
+//		tv_musicing_musicName.setText(musicName);
+//		tv_totaltime.setText(totalTime);
+		//initView(position);
+				
+
+		playactivity_linear_back = (LinearLayout) findViewById(R.id.playactivity_linear_back);
+		playactivity_linear_back.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+
+				Intent intent = new Intent(PlayMusicAcitvity.this,
+						MainActivity.class);
+				startActivity(intent);
+			}
+		});
+	}
+
+	private void initView(int musicPosition) {
+
+		tv_musicing_singer = (TextView) findViewById(R.id.tv_musicing_singer);
+		tv_musicing_album = (TextView) findViewById(R.id.tv_musicing_album);
+		tv_musicing_musicName = (TextView) findViewById(R.id.tv_musicing_musicName);
+		tv_totaltime = (TextView) findViewById(R.id.tv_totaltime);
+		tv_music_lrc = (TextView) findViewById(R.id.tv_music_lrc);
+		tv_currentime = (TextView) findViewById(R.id.tv_currentime);
+		progressSeekBar = (SeekBar) findViewById(R.id.seekBar1);
+		
+		
+
+	/*	if (IsFirst == 1) {
+
+			tv_musicing_singer.setText(singer);
+			tv_musicing_musicName.setText(music);
+			tv_totaltime.setText(time);
+		} else {*/
+
+			Music music = (Music)MainActivity.musicList.get(musicPosition);
+			musicPath = music.getMusicPath();
+			String musicName = music.getMusicName();
+			String singer = music.getSinger();
+			String totalTime = TimeFormat
+					.changeTime((int) music.getMusicTime());
+			tv_musicing_singer.setText(singer);
+			tv_musicing_musicName.setText(musicName);
+			tv_totaltime.setText(totalTime);
+		}
+
+	//}
+
+	@Override
+	public void onClick(View view) {
+		int id = view.getId();
+		Intent intentBroadCast = new Intent();
+		intentBroadCast.putExtra("musicPath", musicPath);
+		intentBroadCast.setAction("com.waterworld.action.PLAYMUSICBROAD");
+		
+		if (id==R.id.img_play) {
+			String tag=img_play.getTag().toString();
+            if ("暂停".equals(tag)) {
+                intentBroadCast.putExtra("PlayMessage", 2);
+				img_play.setImageResource(R.drawable.play_nomal);
+				img_play.setTag("播放");
+
+             }else if ("播放".equals(tag)) {
+       	     intentBroadCast.putExtra("PlayMessage", 1);
+         	 img_play.setImageResource(R.drawable.pause_nomal);
+		     img_play.setTag("暂停");
+	      }
+		} else if (id==R.id.Img_pre) {
+			if (position == 0) {
+				position = MainActivity.musicList.size() - 1;
+
+			} else {
+				position -= 1;
+			}
+			initView(position);
+			intentBroadCast.putExtra("PlayMessage", 1);
+			intentBroadCast.putExtra("musicPath", musicPath);
+			img_play.setImageResource(R.drawable.pause_nomal);
+			img_play.setTag("暂停");
+			PlayMusicSevice.isPause = true;
+			
+		}
+	sendBroadcast(intentBroadCast);
+	}
+
+}

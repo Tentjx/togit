@@ -1,0 +1,107 @@
+package com.example.shared;
+
+
+
+import android.os.Bundle;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
+import android.text.Editable;
+import android.view.Menu;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+public class MainActivity extends Activity implements OnClickListener {
+
+	private ImageView img_repeat;
+	private TextView textView;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_main);
+		
+		img_repeat=(ImageView)findViewById(R.id.imageView1);
+		img_repeat.setOnClickListener(this);
+		 textView=(TextView) findViewById(R.id.textView1);
+		Button button=(Button) findViewById(R.id.button1);
+		button.setOnClickListener(this);
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.main, menu);
+		return true;
+	}
+
+	@Override
+	public void onClick(View view) {
+       		int id=view.getId();
+       		if (id==R.id.imageView1) {
+    			String repeat_tag=img_repeat.getTag().toString();
+    	        SharedPreferences   repeatSharedPreferences=getSharedPreferences("repeat_state", Activity.MODE_PRIVATE);
+
+    			SharedPreferences.Editor editor=repeatSharedPreferences.edit();
+    			if ("循环全部".equals(repeat_tag)) {
+    				img_repeat.setImageResource(R.drawable.ic_mp_repeat_once_btn);
+    				img_repeat.setTag("单曲循环");
+    				editor.putString("repeat_state", "单曲循环");
+    				Toast.makeText(MainActivity.this, "单曲循环", 0).show();
+        			editor.commit();
+
+    			}else if ("单曲循环".equals(repeat_tag)) {
+    				img_repeat.setImageResource(R.drawable.ic_mp_shuffle_on_btn);
+    				img_repeat.setTag("随机播放");
+    				editor.putString("repeat_state", "随机播放");
+    				Toast.makeText(MainActivity.this, "随机播放", 0).show();
+        			editor.commit();
+
+    			}else if ("随机播放".equals(repeat_tag)) {
+    				img_repeat.setImageResource(R.drawable.ic_mp_repeat_all_btn);
+    				img_repeat.setTag("循环全部");  
+    				editor.putString("repeat_state", "循环全部");
+    				Toast.makeText(MainActivity.this, "循环全部", 0).show();
+        			editor.commit();
+
+    			}
+    		}else if (id==R.id.button1) {
+    	       AlertDialog.Builder builder=new AlertDialog.Builder(this);
+    	     //  builder.setTitle("输入框");
+                 
+    	       builder.setTitle(R.id.ll);
+    	       View view2=View.inflate(this, R.layout.diaolog, null);
+    	       builder.setMessage("你确定要输入？");
+    	      // builder.setView(view2);
+    	     final  EditText editText=(EditText) view2.findViewById(R.id.editText1);
+    	     String string=textView.getText().toString();
+    	     editText.setText(string);
+               builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface arg0, int arg1) {
+                   String  textString=editText.getText().toString();
+                   textView.setText(textString);
+					
+				}
+			});
+              builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface arg0, int arg1) {
+					// TODO Auto-generated method stub
+					
+				}
+			});
+              builder.create().show();
+    		}
+	}
+
+}

@@ -1,0 +1,54 @@
+package com.example.activity;
+
+import com.example.entity.Exitactivity;
+import com.example.localmusic.R;
+
+import android.app.Activity;
+
+import android.os.Bundle;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.view.View.OnClickListener;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.SeekBar;
+import android.widget.TextView;
+
+public class play extends Activity implements OnClickListener {
+	private int position = 0;
+	private LinearLayout playactivity_linear_back;
+	private TextView tv_musicing_singer;
+	private TextView tv_musicing_album;
+	private TextView tv_musicing_musicName;
+	private TextView tv_totaltime;
+	private TextView tv_music_lrc;
+	public static TextView tv_currentime;
+	public static SeekBar progressSeekBar;
+	private ImageView img_pre;
+	private ImageView img_play;
+	private ImageView Img_next;
+	private ImageView img_currentList;
+	private ImageView img_repeat;
+	private String musicPath;
+	private ImageView img_img;
+	private String musicName;
+	private String singer;
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+				WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		setContentView(R.layout.playing_music);
+		Exitactivity.getInstance().addActivity(this);
+	}
+	@Override
+	public void onClick(View arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

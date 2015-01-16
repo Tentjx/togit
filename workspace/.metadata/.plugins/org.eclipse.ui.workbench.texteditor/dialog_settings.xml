@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
+		<item value="313" key="DIALOG_WIDTH"/>
+		<item value="148" key="DIALOG_Y_ORIGIN"/>
+		<item value="440" key="DIALOG_HEIGHT"/>
+		<item value="967" key="DIALOG_X_ORIGIN"/>
+		<item value="1|Ubuntu|11.0|0|GTK|1|" key="DIALOG_FONT_NAME"/>
+	</section>
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
+		<item value="true" key="wrap"/>
+		<item value="false" key="isRegEx"/>
+		<item value="false" key="casesensitive"/>
+		<item value="false" key="incremental"/>
+		<item value="false" key="wholeword"/>
+		<item value="zj_tv_singer" key="selection"/>
+		<list key="findhistory">
+			<item value="textView2"/>
+			<item value="textView1"/>
+			<item value="gqfrag_tv_totaltime"/>
+			<item value="textView"/>
+			<item value="arg0"/>
+			<item value="package com.example.localmusic;"/>
+			<item value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;"/>
+			<item value="musicPath"/>
+		</list>
+		<list key="replacehistory">
+			<item value="zj_tv_singer"/>
+			<item value="zj_tv_zjName"/>
+			<item value="textView"/>
+			<item value="gqfrag_tv_totaltime"/>
+			<item value="gqfrag_tv_songer"/>
+			<item value="gqfrag_tv_songName"/>
+			<item value="position"/>
+		</list>
+	</section>
+</section>

@@ -1,0 +1,29 @@
+package com.example.activity;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.example.entity.GetLrcInfo;
+import com.example.entity.Lrc;
+import com.example.entity.LrcView;
+import com.example.localmusic.R;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.widget.TextView;
+
+public class LrcActivity extends Activity {
+private GetLrcInfo getLrcInfo;
+private List<Lrc> lrcList = new ArrayList<Lrc>();
+
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+	// TODO Auto-generated method stub
+	super.onCreate(savedInstanceState);
+	setContentView(R.layout.lrc);
+	String musicPathString="/storage/sdcard0/baidu/丁当-痛快.mp3";
+
+
+
+}
+}

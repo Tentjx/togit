@@ -1,0 +1,159 @@
+package com.example.activity;
+
+import com.example.activity.PlayMusicAcitvity.CompletionBroadReceiver;
+import com.example.entity.Exitactivity;
+import com.example.localmusic.R;
+import com.example.service.PlayMusicSevice;
+
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
+
+import android.os.Bundle;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.view.View.OnClickListener;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.SeekBar;
+import android.widget.TextView;
+import android.widget.SeekBar.OnSeekBarChangeListener;
+
+public class play extends Activity implements OnClickListener {
+	private int position = 0;
+	private LinearLayout playactivity_linear_back;
+	private TextView tv_musicing_singer;
+	private TextView tv_musicing_album;
+	private TextView tv_musicing_musicName;
+	private TextView tv_totaltime;
+	private TextView tv_music_lrc;
+	public static TextView tv_currentime;
+	public static SeekBar progressSeekBar;
+	private ImageView img_pre;
+	private ImageView img_play;
+	private ImageView Img_next;
+	private ImageView img_currentList;
+	private ImageView img_repeat;
+	private String musicPath;
+	private ImageView img_img;
+	private String musicName;
+	private String singer;
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+				WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		setContentView(R.layout.playing_music);
+		Exitactivity.getInstance().addActivity(this);
+	}
+	
+	@Override
+	protected void onStart() {
+		// TODO Auto-generated method stub
+		SharedPreferences repeatSharedPreferences = PlayMusicAcitvity.this
+				.getSharedPreferences("repeat", Context.MODE_PRIVATE);
+		String repeat_state = repeatSharedPreferences.getString("repeat_state",
+				"");
+		Intent intent = getIntent();
+		position = intent.getIntExtra("position", 0);
+
+		img_img = (ImageView) findViewById(R.id.img_img);
+		img_img.setOnClickListener(this);
+		img_currentList = (ImageView) findViewById(R.id.img_currentList);
+		img_repeat = (ImageView) findViewById(R.id.img_repeat);
+
+		img_pre = (ImageView) findViewById(R.id.Img_pre);
+		img_play = (ImageView) findViewById(R.id.img_play);
+		Img_next = (ImageView) findViewById(R.id.Img_next);
+
+		img_currentList.setOnClickListener(this);
+		img_repeat.setOnClickListener(this);
+		img_pre.setOnClickListener(this);
+		img_play.setOnClickListener(this);
+		Img_next.setOnClickListener(this);
+
+		if ("循环全部".equals(repeat_state)) {
+			img_repeat.setImageResource(R.drawable.ic_mp_repeat_all_btn);
+			img_repeat.setTag("循环全部");
+
+		} else if ("单曲循环".equals(repeat_state)) {
+			img_repeat.setImageResource(R.drawable.ic_mp_repeat_once_btn);
+			img_repeat.setTag("单曲循环");
+
+		} else if ("随机播放".equals(repeat_state)) {
+			img_repeat.setImageResource(R.drawable.ic_mp_shuffle_on_btn);
+			img_repeat.setTag("随机播放");
+		}
+
+		initView(position);
+
+		progressSeekBar
+				.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+
+					@Override
+					public void onStopTrackingTouch(SeekBar arg0) {
+
+					}
+
+					@Override
+					public void onStartTrackingTouch(SeekBar arg0) {
+
+					}
+
+					@Override
+					public void onProgressChanged(SeekBar arg0, int arg1,
+							boolean arg2) {
+						if (arg2) {
+							if (PlayMusicSevice.isPause) {
+								img_play.setImageResource(R.drawable.pause_nomal);
+								img_play.setTag("暂停");
+							}
+
+							PlayMusicSevice.mediaPlayer.seekTo(arg1);
+							PlayMusicSevice.mediaPlayer.start();
+						}
+
+					}
+				});
+
+		CompletionBroadReceiver completionBroadReceiver = new CompletionBroadReceiver();
+		IntentFilter intentFilter = new IntentFilter();
+		intentFilter.addAction("com.waterworld.action.COMPLETIONBROAD");
+		registerReceiver(completionBroadReceiver, intentFilter);
+
+		playactivity_linear_back = (LinearLayout) findViewById(R.id.playactivity_linear_back);
+		playactivity_linear_back.setOnClickListener(new OnClickListener() {
+
+			@SuppressLint("NewApi")
+			@Override
+			public void onClick(View arg0) {
+
+				SharedPreferences playingPreferences = getSharedPreferences(
+						"playing_music", Activity.MODE_PRIVATE);
+				SharedPreferences.Editor editor = playingPreferences.edit();
+				editor.putString("musicName", musicName);
+				editor.putString("singer", singer);
+				editor.apply();
+
+				PlayMusicSevice.isPause = false;
+				finish();
+			}
+		});
+	}
+		
+		
+	
+	@Override
+	public void onClick(View arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

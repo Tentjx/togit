@@ -1,0 +1,238 @@
+package com.example.localmusic;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+
+import java.util.Map;
+
+import java.util.List;
+import java.util.zip.Inflater;
+
+import com.example.entity.Album;
+import com.example.entity.GetData;
+import com.example.entity.LoadExpandData;
+import com.example.entity.Music;
+
+import android.os.Build;
+import android.os.Bundle;
+import android.R.integer;
+import android.annotation.TargetApi;
+import android.app.ActionBar;
+import android.app.TabActivity;
+import android.content.Intent;
+import android.content.res.Resources;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.view.Menu;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TabHost;
+import android.widget.TabWidget;
+import android.widget.Toast;
+
+public class MainActivity extends FragmentActivity implements OnClickListener {
+	private ArrayList<Fragment> list = null;
+	private ViewPager myViewPager;
+	public static List<Music> musicList = null;
+	public static List<Map<String, String>> musicListExpand = new ArrayList<Map<String, String>>();
+	private LinearLayout ysj_linearLayout;
+	private LinearLayout zj_linearLayout;
+	private LinearLayout gq_linearLayout;
+	private LinearLayout bflb_linearLayout;
+	private ImageView ysj_img;
+	private ImageView zj_img;
+	private ImageView gq_img;
+	private ImageView bflb_img;
+	private int position;
+
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+
+		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+				WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		setContentView(R.layout.ly);
+	
+		musicList = GetData.getLocalMusic(getApplicationContext());
+		musicListExpand = LoadExpandData.loadSongs(getApplicationContext());
+		HashSet<Album> sets=selectAlbum(musicList);
+        Toast.makeText(this, ""+sets.size(), 0).show();
+		Intent intent=getIntent();
+		position=intent.getIntExtra("position", 0);
+		initView();
+		intentViewPager();
+
+	}
+
+	private void initView() {
+		myViewPager = (ViewPager) findViewById(R.id.viewpage);
+		// 找到顶部Tab
+		ysj_linearLayout = (LinearLayout) findViewById(R.id.tab_linear_ysj);
+		ysj_img = (ImageView) findViewById(R.id.tab_bg_ysj);
+		ysj_linearLayout.setOnClickListener(this);
+		
+		zj_linearLayout = (LinearLayout) findViewById(R.id.tab_linear_zj);
+		zj_img = (ImageView) findViewById(R.id.tab_bg_zj);
+		zj_linearLayout.setOnClickListener(this);
+		
+		gq_linearLayout = (LinearLayout) findViewById(R.id.tab_linear_gq);
+		gq_img = (ImageView) findViewById(R.id.tab_bg_gq);
+		gq_linearLayout.setOnClickListener(this);
+		
+		bflb_linearLayout = (LinearLayout) findViewById(R.id.tab_linear_bflb);
+		bflb_img = (ImageView) findViewById(R.id.tab_bg_bflb);
+		bflb_linearLayout.setOnClickListener(this);
+
+	}
+
+	private void intentViewPager() {
+		Fragment ysj = MyFragment.newInstance(Contents.YSJ);
+		Fragment zj = MyFragment.newInstance(Contents.ZJ);
+		Fragment gq = MyFragment.newInstance(Contents.GQ);
+		Fragment bflb = MyFragment.newInstance(Contents.BFLB);
+
+		list = new ArrayList<Fragment>();
+		list.add(ysj);
+		list.add(zj);
+		list.add(gq);
+		list.add(bflb);
+
+		myViewPager.setAdapter(new MyFragementAdapter(
+				getSupportFragmentManager(), list));
+		 if (position==3) {
+				myViewPager.setCurrentItem(3);
+				changeTab(3);
+
+		}else {
+			myViewPager.setCurrentItem(0);
+
+		}
+		
+		
+		myViewPager.setOnPageChangeListener(new myPageChangeListener());
+
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.main, menu);
+		return true;
+	}
+
+	public void changeTab(int flag) {
+		if (flag==0) {
+			ysj_img.setImageResource(R.drawable.header_bg);
+	         zj_img.setImageResource(R.drawable.nowplaying_seekbar_progress_h);
+	         gq_img.setImageResource(R.drawable.nowplaying_seekbar_progress_h);
+	         bflb_img.setImageResource(R.drawable.nowplaying_seekbar_progress_h);
+		}
+		
+		if (flag==1) {
+			zj_img.setImageResource(R.drawable.header_bg);
+            ysj_img.setImageResource(R.drawable.nowplaying_seekbar_progress_h);
+            gq_img.setImageResource(R.drawable.nowplaying_seekbar_progress_h);
+            bflb_img.setImageResource(R.drawable.nowplaying_seekbar_progress_h);
+		}
+		if (flag==2) {
+		    ysj_img.setImageResource(R.drawable.nowplaying_seekbar_progress_h);
+            zj_img.setImageResource(R.drawable.nowplaying_seekbar_progress_h);
+            gq_img.setImageResource(R.drawable.header_bg);
+            bflb_img.setImageResource(R.drawable.nowplaying_seekbar_progress_h);
+		}
+		if (flag==3) {
+			ysj_img.setImageResource(R.drawable.nowplaying_seekbar_progress_h);
+            zj_img.setImageResource(R.drawable.nowplaying_seekbar_progress_h);
+            gq_img.setImageResource(R.drawable.nowplaying_seekbar_progress_h);
+            bflb_img.setImageResource(R.drawable.header_bg);
+		}
+		 
+	}
+	
+
+	
+	@Override
+	public void onClick(View view) {
+		int id = view.getId(); 
+		if (id == R.id.tab_linear_ysj) {
+            changeTab(0);
+    		myViewPager.setCurrentItem(0);
+
+		} else if (id == R.id.tab_linear_zj) {
+            changeTab(1);
+    		myViewPager.setCurrentItem(1);
+
+              
+		} else if (id == R.id.tab_linear_gq) {
+            changeTab(2);
+    		myViewPager.setCurrentItem(2);
+
+		} else if (id == R.id.tab_linear_bflb) {
+            changeTab(3);
+    		myViewPager.setCurrentItem(3);
+
+		}
+	}
+
+	class myPageChangeListener implements OnPageChangeListener{
+
+		@Override
+		public void onPageScrollStateChanged(int arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onPageScrolled(int arg0, float arg1, int arg2) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onPageSelected(int position) {
+          if (position==0) {
+              changeTab(0);
+
+		}else if (position==1) {
+            changeTab(1);
+
+		}else if (position==2) {
+            changeTab(2);
+
+		}else if (position==3) {
+            changeTab(3);
+
+		}
+			
+		}
+
+	}
+	public HashSet<Album>	selectAlbum(List<Music> list){
+		String albumName=null ;
+		String artistsName=null ;
+		HashSet<Album> set=new HashSet<Album>();
+
+			for (int i = 0; i < list.size(); i++) {
+				Music music=list.get(i);
+				albumName=music.getAlbum();
+				artistsName=music.getSinger() ;
+				Album album=new Album();
+				album.setAlbumName(albumName);
+				album.setArtistsName(artistsName);
+				Toast.makeText(this, albumName, 0).show();
+				System.out.println(albumName+"-----"+artistsName);
+				set.add(album);
+			}
+			return set;
+		
+		}
+	
+}

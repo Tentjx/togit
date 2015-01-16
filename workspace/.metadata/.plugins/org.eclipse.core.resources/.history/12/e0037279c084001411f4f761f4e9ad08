@@ -1,0 +1,85 @@
+package com.example.mp3player;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import android.os.Bundle;
+import android.R.integer;
+import android.app.Activity;
+import android.content.Loader.ForceLoadContentObserver;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+public class MainActivity extends Activity {
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_main);
+		MusicAdapter musicAdapter=new MusicAdapter();
+		//musicAdapter.DDisplay();
+		ListView musiclListView=(ListView) findViewById(R.id.listView1);
+		musiclListView.setAdapter(musicAdapter);
+		
+		
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.main, menu);
+		return true;
+	}
+    public void searchMusic(View view){
+    	Toast.makeText(this, "无歌曲", 0).show();
+    }
+    
+    public class MusicAdapter extends BaseAdapter{
+         String[] musicName={"最炫民族风","寂寞沙州冷","七里香","给我一首歌的时间","入戏太深","当我孤单的时候还可以抱着你"};
+      /*   List<String> list=new ArrayList<String>();
+       public void DDisplay(){
+    	   for (int i = 0; i < musicName.length; i++) {
+			  list.add(musicName[i]);
+		}
+       }*/
+         @Override
+		public int getCount() {
+			// TODO Auto-generated method stub
+			return musicName.length;
+		}
+
+		@Override
+		public Object getItem(int arg0) {
+			// TODO Auto-generated method stub
+			return musicName[arg0];
+		}
+
+		@Override
+		public long getItemId(int arg0) {
+			// TODO Auto-generated method stub
+			return arg0;
+		}
+
+		@Override
+		public View getView(int arg0, View arg1, ViewGroup arg2) {
+			// TODO Auto-generated method stub
+			if (arg1==null) {
+				LayoutInflater layoutInflater=LayoutInflater.from(MainActivity.this);
+				arg1=layoutInflater.inflate(R.layout.music_item, null);
+				
+			}
+			TextView tv_musicIndex=(TextView)arg1.findViewById(R.id.tv_musicNumber);
+			TextView tv_musicName=(TextView) arg1.findViewById(R.id.tv_musicName);
+			tv_musicIndex.setText(""+(arg0+1));
+			tv_musicName.setText(musicName[arg0]);
+			return arg1;
+		}
+    	
+    }
+}

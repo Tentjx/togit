@@ -1,0 +1,78 @@
+package com.example.localmusic;
+
+import java.util.ArrayList;
+
+import android.os.Bundle;
+import android.app.Activity;
+import android.app.TabActivity;
+import android.content.Intent;
+import android.content.res.Resources;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
+import android.view.Menu;
+import android.widget.TabHost;
+
+public class MainActivity extends TabActivity {
+    private ArrayList<Fragment> list=null;
+    private ViewPager myViewPager;
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_main);
+		TabHost tabHost=getTabHost();
+		Resources resources=getResources();
+		TabHost.TabSpec spec;
+		Intent intent;
+		intent=new Intent().setClass(this, Music.class);
+		spec=tabHost.newTabSpec("艺术家").setIndicator("艺术家", getResources().getDrawable(R.drawable.ic_tab_artists)).setContent(intent);
+	    tabHost.addTab(spec);
+	    
+	     intent=new Intent().setClass(this, Music.class);
+		spec=tabHost.newTabSpec("专辑").setIndicator("专辑", getResources().getDrawable(R.drawable.ic_tab_albums)).setContent(intent);
+	    tabHost.addTab(spec);
+	    
+	     intent=new Intent().setClass(this, Music.class);
+		spec=tabHost.newTabSpec("歌曲").setIndicator("歌曲", getResources().getDrawable(R.drawable.ic_tab_songs)).setContent(intent);
+	    tabHost.addTab(spec);
+	    
+	    intent=new Intent().setClass(this, Music.class);
+		spec=tabHost.newTabSpec("列表").setIndicator("列表", getResources().getDrawable(R.drawable.ic_tab_playlists)).setContent(intent);
+	    tabHost.addTab(spec);
+	    
+	    intentViewPager();
+	    intentView();
+	}
+
+	private void intentView() {
+       myViewPager=(ViewPager) findViewById(R.id.viewpage);
+       
+		
+	}
+
+	private void intentViewPager() {
+		Fragment ysj= MyFragment.newInstance(Contents.YSJ);
+		Fragment zj= MyFragment.newInstance(Contents.ZJ);
+		Fragment gq= MyFragment.newInstance(Contents.GQ);
+		Fragment bflb= MyFragment.newInstance(Contents.BFLB);
+		
+		list=new ArrayList<Fragment>();
+		list.add(ysj);
+		list.add(zj);
+		list.add(gq);
+		list.add(bflb);
+		
+	//	myViewPager.setAdapter(new MyFragementAdapter(getSupportFragmentManager(),list));
+
+
+		
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.main, menu);
+		return true;
+	}
+
+}

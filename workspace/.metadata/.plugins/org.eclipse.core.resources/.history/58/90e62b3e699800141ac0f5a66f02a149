@@ -1,0 +1,7 @@
+package com.music.lrcicsync;
+
+import android.view.View;
+
+public class LrcicView extends View {
+
+}

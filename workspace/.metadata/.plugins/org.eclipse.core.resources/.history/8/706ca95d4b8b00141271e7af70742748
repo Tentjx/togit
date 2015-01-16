@@ -1,0 +1,107 @@
+package com.example.localmusic;
+
+import java.util.ArrayList;
+
+import java.util.Map;
+
+import java.util.List;
+import java.util.zip.Inflater;
+
+import com.example.entity.GetData;
+import com.example.entity.LoadExpandData;
+import com.example.entity.Music;
+
+import android.os.Bundle;
+import android.app.TabActivity;
+import android.content.Intent;
+import android.content.res.Resources;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.ViewPager;
+import android.view.Menu;
+import android.view.View;
+import android.widget.TabHost;
+import android.widget.TabWidget;
+
+public class MainActivity extends FragmentActivity {
+    private ArrayList<Fragment> list=null;
+    private ViewPager myViewPager;
+    public static List<Music> musicList=null; 
+    public static List<Map<String, String>> musicListExpand = new ArrayList<Map<String, String>>();
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		
+		
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_main);
+		
+		//musicList=GetData.getLocalMusic(getApplicationContext());
+		//musicListExpand=LoadExpandData.loadSongs(getApplicationContext());
+		
+//		TabHost tabHost=getTabHost();
+//		TabHost.TabSpec spec;
+//		Intent intent;
+//		intent=new Intent().setClass(this, Music.class);
+//		spec=tabHost.newTabSpec("艺术家").setIndicator("艺术家", getResources().getDrawable(R.drawable.ic_tab_artists)).setContent(intent);
+//	    tabHost.addTab(spec);
+//	    
+//	     intent=new Intent().setClass(this, Music.class);
+//		spec=tabHost.newTabSpec("专辑").setIndicator("专辑", getResources().getDrawable(R.drawable.ic_tab_albums)).setContent(intent);
+//	    tabHost.addTab(spec);
+//	    
+//	     intent=new Intent().setClass(this, Music.class);
+//		spec=tabHost.newTabSpec("歌曲").setIndicator("歌曲", getResources().getDrawable(R.drawable.ic_tab_songs)).setContent(intent);
+//	    tabHost.addTab(spec);
+//	    
+//	    intent=new Intent().setClass(this, Music.class);
+//		spec=tabHost.newTabSpec("列表").setIndicator("列表", getResources().getDrawable(R.drawable.ic_tab_playlists)).setContent(intent);
+//	    tabHost.addTab(spec);
+   
+	   // intentViewPager();
+	  //  intentView();
+
+
+	
+     //  myViewPager=(ViewPager) findViewById(R.id.viewpage);
+       
+       TabHost tabHost=(TabHost) findViewById(R.id.tabhost);
+       tabHost.setup();
+       TabWidget tabWidget = tabHost.getTabWidget();
+       Intent intent=new Intent().setClass(this, Musicop.class);
+       tabHost.addTab(tabHost.newTabSpec("艺术家").setIndicator("艺术家", getResources().getDrawable(R.drawable.ic_tab_artists)).setContent(intent));
+       tabHost.addTab(tabHost.newTabSpec("专辑").setIndicator("专辑", getResources().getDrawable(R.drawable.ic_tab_albums)).setContent(intent));
+       tabHost.addTab(tabHost.newTabSpec("歌曲").setIndicator("歌曲", getResources().getDrawable(R.drawable.ic_tab_songs)).setContent(intent));
+       tabHost.addTab(tabHost.newTabSpec("播放列表").setIndicator("播放列表", getResources().getDrawable(R.drawable.ic_tab_playlists)).setContent(intent));
+
+	}
+
+/*	private void intentViewPager() {
+		Fragment ysj= MyFragment.newInstance(Contents.YSJ);
+		Fragment zj= MyFragment.newInstance(Contents.ZJ);
+		Fragment gq= MyFragment.newInstance(Contents.GQ);
+		Fragment bflb= MyFragment.newInstance(Contents.BFLB);
+		
+		list=new ArrayList<Fragment>();
+		list.add(ysj);
+		list.add(zj);
+		list.add(gq);
+		list.add(bflb);
+		
+	     myViewPager.setAdapter(new MyFragementAdapter(getSupportFragmentManager(),list));
+	     myViewPager.setCurrentItem(0);
+
+	     
+
+		
+	}*/
+	
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.main, menu);
+		return true;
+	}
+
+}

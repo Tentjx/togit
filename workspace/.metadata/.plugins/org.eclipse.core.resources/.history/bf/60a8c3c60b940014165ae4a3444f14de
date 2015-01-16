@@ -1,0 +1,55 @@
+package com.example.caculator;
+
+import android.os.Bundle;
+import android.app.Activity;
+import android.view.Menu;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+
+public class MainActivity extends Activity implements OnClickListener {
+
+	private EditText editText;
+	private TextView textView;
+	private Button deleteone;
+	private Button get;
+	private Button clear;
+	private Button add;
+	private Button redu;
+	private Button cheng;
+	private Button chu;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_main);
+		 editText=(EditText)findViewById(R.id.srk);
+		  textView=(TextView) findViewById(R.id.jg);
+		  
+		   deleteone=(Button) findViewById(R.id.deleteone);
+		   
+		   clear=(Button) findViewById(R.id.clear);
+		   get=(Button) findViewById(R.id.get);
+		   add=(Button) findViewById(R.id.add);
+		   redu=(Button) findViewById(R.id.redu);
+		   cheng=(Button) findViewById(R.id.cheng);
+		   chu=(Button) findViewById(R.id.chu);
+
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.main, menu);
+		return true;
+	}
+
+	@Override
+	public void onClick(View arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

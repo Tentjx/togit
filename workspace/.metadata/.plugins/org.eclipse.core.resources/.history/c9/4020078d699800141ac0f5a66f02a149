@@ -1,0 +1,43 @@
+package com.music.lrcicsync;
+
+import android.content.Context;
+import android.view.View;
+import java.io.BufferedReader;  
+import java.io.File;  
+import java.io.FileInputStream;  
+import java.io.FileNotFoundException;  
+import java.io.IOException;  
+import java.io.InputStreamReader;  
+import java.util.Iterator;  
+import java.util.TreeMap;  
+import java.util.regex.Matcher;  
+import java.util.regex.Pattern;  
+  
+import android.content.Context;  
+import android.graphics.Canvas;  
+import android.graphics.Color;  
+import android.graphics.Paint;  
+import android.util.AttributeSet;  
+import android.util.Log;  
+import android.view.MotionEvent;  
+import android.view.View;
+public class LrcicView extends View {
+	    private static TreeMap<Integer, LyricObject> lrc_map;  
+	    private float mX;       //屏幕X轴的中点，此值固定，保持歌词在X中间显示  
+	    private float offsetY;      //歌词在Y轴上的偏移量，此值会根据歌词的滚动变小  
+	    private static boolean blLrc=false;  
+	    private float touchY;   //当触摸歌词View时，保存为当前触点的Y轴坐标  
+	    private float touchX;  
+	    private boolean blScrollView=false;  
+	    private int lrcIndex=0; //保存歌词TreeMap的下标  
+	    private  int SIZEWORD=0;//显示歌词文字的大小值  
+	    private  int INTERVAL=45;//歌词每行的间隔  
+	    Paint paint=new Paint();//画笔，用于画不是高亮的歌词  
+	    Paint paintHL=new Paint();  
+
+	public LrcicView(Context context) {
+		super(context);
+		// TODO Auto-generated constructor stub
+	}
+
+}

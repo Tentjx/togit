@@ -1,0 +1,63 @@
+package com.example.activity;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.example.entity.GetLrcInfo;
+import com.example.entity.Lrc;
+import com.example.entity.LrcView;
+import com.example.localmusic.R;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.widget.TextView;
+
+public class LrcActivity extends Activity {
+private GetLrcInfo getLrcInfo;
+private List<Lrc> lrcList = new ArrayList<Lrc>();
+
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+	// TODO Auto-generated method stub
+	super.onCreate(savedInstanceState);
+	setContentView(R.layout.lrc);
+	String musicPathString="/storage/sdcard/baidu/丁当-痛快.mp3";
+	//LrcView lrcView=(LrcView) findViewById(R.id.showlrc);
+	TextView tv1=(TextView) findViewById(R.id.t1);
+	TextView tv2=(TextView) findViewById(R.id.t2);
+	TextView tv3=(TextView) findViewById(R.id.t3);
+	TextView tv4=(TextView) findViewById(R.id.t4);
+	TextView tv5=(TextView) findViewById(R.id.t5);
+	TextView tv6=(TextView) findViewById(R.id.t6);
+	TextView tv7=(TextView) findViewById(R.id.t7);
+	TextView tv8=(TextView) findViewById(R.id.t8);
+	TextView tv9=(TextView) findViewById(R.id.t9);
+	TextView tv10=(TextView) findViewById(R.id.t10);
+
+	 getLrcInfo=new GetLrcInfo();
+     getLrcInfo.readLrc(musicPathString);
+     lrcList=getLrcInfo.getLrcList();
+    String s1= lrcList.get(0).getLrcString();
+    String s2= lrcList.get(1).getLrcString();
+    String s3= lrcList.get(2).getLrcString();
+    String s4= lrcList.get(3).getLrcString();
+    String s5= lrcList.get(4).getLrcString();
+    String s6= lrcList.get(5).getLrcString();
+    String s7= lrcList.get(6).getLrcString();
+    String s8= lrcList.get(7).getLrcString();
+    String s9= lrcList.get(8).getLrcString();
+    String s10= lrcList.get(9).getLrcString();
+    tv1.setText(s1);
+    tv2.setText(s2);
+    tv3.setText(s3);
+    tv4.setText(s4);
+    tv5.setText(s5);
+    tv6.setText(s6);
+    tv7.setText(s7);
+    tv8.setText(s8);
+    tv9.setText(s9);
+    tv10.setText(s10);
+
+  //   lrcView.setmLrcList(lrcList);
+}
+}

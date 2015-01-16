@@ -1,0 +1,234 @@
+package com.example.service;
+
+
+
+import java.io.IOException;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import android.R.integer;
+import android.app.Service;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.MediaPlayer.OnCompletionListener;
+import android.net.Uri;
+import android.os.Handler;
+import android.os.IBinder;
+import android.os.Message;
+import android.view.animation.AnimationUtils;
+
+import com.example.activity.PlayMusicAcitvity;
+import com.example.entity.GetLrcInfo;
+import com.example.entity.Lrc;
+import com.example.entity.TimeFormat;
+
+
+public class PlayMusicSevice extends Service {
+     public static MediaPlayer mediaPlayer;
+     public static boolean isPause;
+ 	public static String musicPath;
+ 	private List<Lrc> lrcList = new ArrayList<Lrc>();
+	private GetLrcInfo getLrcInfo;
+	private int currentTime;
+	private int duration;
+	private int index=0;
+
+	@Override
+	public IBinder onBind(Intent arg0) {
+		return null;
+	}
+   @Override
+  public void onCreate() {
+	   super.onCreate();
+		mediaPlayer = new MediaPlayer();
+		
+		MusicControlBroadReceiver musicControlBroadReceiver = new MusicControlBroadReceiver();
+		IntentFilter intentFilter = new IntentFilter();
+		intentFilter.addAction("com.waterworld.action.PLAYMUSICBROAD");
+		registerReceiver(musicControlBroadReceiver, intentFilter);
+		
+      mediaPlayer.setOnCompletionListener(new OnCompletionListener() {
+		
+		@Override
+		public void onCompletion(MediaPlayer arg0) {
+            if (mediaPlayer.getCurrentPosition()==mediaPlayer.getDuration()) {
+
+            	Intent intentCompletionBroad = new Intent();
+				intentCompletionBroad
+						.setAction("com.waterworld.action.COMPLETIONBROAD");
+				intentCompletionBroad.putExtra("completion", "completed");
+				sendBroadcast(intentCompletionBroad);
+				
+			}
+			
+		}
+	});
+    }
+   
+/*
+ * 歌唱部分
+ * 
+ */
+ /*   public void initLrc(){
+       getLrcInfo=new GetLrcInfo();
+       getLrcInfo.readLrc(musicPath);
+       lrcList=getLrcInfo.getLrcList();
+       PlayMusicAcitvity.lrcView.setmLrcList(lrcList);
+      PlayMusicAcitvity.lrcView.setAnimation(AnimationUtils.loadAnimation(PlayMusicSevice.this, com.example.localmusic.R.anim.alpha_z));
+      handler.post(mRunnable);
+
+    }
+    
+Runnable mRunnable = new Runnable() {
+		
+		@Override
+		public void run() {
+			PlayMusicAcitvity.lrcView.setIndex(lrcIndex());
+			PlayMusicAcitvity.lrcView.invalidate();
+			handler.postDelayed(mRunnable, 100);
+		}
+	};
+   
+	private Handler handler = new Handler() {
+		public void handleMessage(android.os.Message msg) {
+			if (msg.what == 2) {
+				if(mediaPlayer != null) {
+			       currentTime = mediaPlayer.getCurrentPosition(); // ��ȡ��ǰ���ֲ��ŵ�λ��
+//					Intent intent = new Intent();
+//					intent.setAction(MUSIC_CURRENT);
+//					intent.putExtra("currentTime", currentTime);
+//					sendBroadcast(intent); // ��PlayerActivity���͹㲥
+					handler.sendEmptyMessageDelayed(2, 1000);
+				}
+			}
+		};
+	};
+	
+   
+	public int lrcIndex() {
+		if(mediaPlayer.isPlaying()) {
+			  currentTime = mediaPlayer.getCurrentPosition();
+		      duration = mediaPlayer.getDuration();
+		}
+		if(currentTime < duration) {
+			for (int i = 0; i < lrcList.size(); i++) {
+				if (i < lrcList.size() - 1) {
+					if (currentTime < lrcList.get(i).getLrcTime() && i == 0) {
+						index = i;
+					}
+					if (currentTime > lrcList.get(i).getLrcTime()
+							&& currentTime < lrcList.get(i + 1).getLrcTime()) {
+						index = i;
+					}
+				}
+				if (i == lrcList.size() - 1
+						&& currentTime > lrcList.get(i).getLrcTime()) {
+					index = i;
+				}
+			}
+		}
+		return index;
+	}
+	*/
+	 class TimeThread extends Thread {
+	        @Override
+	        public void run() {
+	            do {
+	                try {
+	                    Thread.sleep(100);
+	                    Message msg = new Message();
+	                    msg.what = 1;  //消息(一个整型值)
+	                    mHandler.sendMessage(msg);// 每隔1秒发送一个msg给mHandler
+	                } catch (InterruptedException e) {
+	                    e.printStackTrace();
+	                }
+	            } while (true);
+	        }
+	    }
+	 
+	 private Handler mHandler=new Handler(){
+
+		private int cposition;
+
+		@Override
+	        public void handleMessage(Message msg) {
+	            super.handleMessage(msg);
+	            switch (msg.what) {
+	            case 1:
+						 cposition = mediaPlayer.getCurrentPosition();
+		            	 PlayMusicAcitvity.progressSeekBar.setProgress(
+		            			 cposition);
+		    			String currentTime = TimeFormat.changeTime(cposition);
+
+		    			PlayMusicAcitvity.tv_currentime.setText(currentTime);
+					
+	            	
+                  break;
+	         
+
+                  default:
+                  	break;
+	            }
+	            }
+	 };
+
+   
+   class MusicControlBroadReceiver extends BroadcastReceiver{
+
+
+	@Override
+	public void onReceive(Context context, Intent intent) {
+		int playMessage = intent.getIntExtra("PlayMessage", 0);
+		 musicPath = intent.getStringExtra("musicPath");
+		Uri musicUri = Uri.parse(musicPath);
+		if (playMessage==1) {
+			if (isPause) {
+				mediaPlayer.start();
+
+			}else {
+				
+			try {
+          
+				mediaPlayer.reset();
+				mediaPlayer
+						.setAudioStreamType(AudioManager.STREAM_MUSIC);
+				mediaPlayer.setDataSource(getApplicationContext(),
+						musicUri);
+				mediaPlayer.prepare();
+				mediaPlayer.start();
+				//handler.sendEmptyMessage(2);
+
+				new TimeThread().start();
+			} catch (IllegalArgumentException e) {
+				e.printStackTrace();
+			} catch (SecurityException e) {
+				e.printStackTrace();
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+		}
+			isPause=false;
+		}else if (playMessage==2) {
+			if (mediaPlayer.isPlaying()) {
+				
+				mediaPlayer.pause();
+			}
+			
+			isPause = true;
+
+		} 
+	}
+	   
+   }
+      
+    
+}   
+

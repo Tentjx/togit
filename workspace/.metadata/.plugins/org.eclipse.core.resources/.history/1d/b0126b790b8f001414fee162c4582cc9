@@ -1,0 +1,95 @@
+package com.example.activity;
+
+import javax.security.auth.PrivateCredentialPermission;
+
+import com.example.localmusic.R;
+
+import android.R.integer;
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.SeekBar;
+import android.widget.TextView;
+import android.widget.Toast;
+
+public class PlayMusicAcitvity extends Activity {
+    private int position;
+    private String music;
+    private String singer;
+    private String time;
+    
+    private LinearLayout playactivity_linear_back;
+    private TextView tv_musicing_singer;
+	private TextView tv_musicing_album;
+	private TextView tv_musicing_musicName;
+	private TextView tv_totaltime;
+	private TextView tv_music_lrc;
+	private TextView tv_currentime;
+	private SeekBar progressSeekBar;
+	private ImageView img_pre;
+	private ImageView img_play;
+	private ImageView Img_next;
+    
+
+	@Override
+    protected void onCreate(Bundle savedInstanceState) {
+    	// TODO Auto-generated method stub
+    	super.onCreate(savedInstanceState);
+    	requestWindowFeature(Window.FEATURE_NO_TITLE);
+		this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+				WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		setContentView(R.layout.playing_music);
+	
+		Intent intent=getIntent();
+		position=intent.getIntExtra("position", 0);
+		music=intent.getStringExtra("musicName");
+		singer=intent.getStringExtra("singer");
+		time=intent.getStringExtra("totalTime");
+
+		initView();
+		
+		Toast.makeText(this, music+"--"+singer+"--"+time+"-----"+position, 0).show();
+		
+		playactivity_linear_back=(LinearLayout)findViewById(R.id.playactivity_linear_back);
+		playactivity_linear_back.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+
+				Intent intent=new Intent(PlayMusicAcitvity.this,MainActivity.class);
+				startActivity(intent);
+			}
+		});
+    }
+	private void initView() {
+		 tv_musicing_singer=(TextView) findViewById(R.id.tv_musicing_singer);
+		 tv_musicing_album=(TextView) findViewById(R.id.tv_musicing_album);
+		 tv_musicing_musicName=(TextView) findViewById(R.id.tv_musicing_musicName);
+		 tv_totaltime=(TextView) findViewById(R.id.tv_totaltime);
+		 
+		 tv_musicing_singer.setText(singer);
+		 tv_musicing_musicName.setText(music);
+		 tv_totaltime.setText(time);
+		 
+		 tv_music_lrc=(TextView) findViewById(R.id.tv_music_lrc);
+		 tv_music_lrc.setText("");
+		 
+		 img_pre=(ImageView)findViewById(R.id.Img_pre);
+		 img_play=(ImageView)findViewById(R.id.img_play);
+		 Img_next=(ImageView)findViewById(R.id.Img_next);
+
+		 
+		 tv_currentime=(TextView) findViewById(R.id.tv_currentime);
+		 progressSeekBar=(SeekBar)findViewById(R.id.seekBar1);
+		 
+		 
+
+	}
+}

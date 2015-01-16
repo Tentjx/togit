@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/RelativeLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:alpha="100"
+    android:orientation="vertical"
+    android:textAlignment="center" >
+    <TextView
+        android:id="@+id/music_name"
+        android:layout_width="164dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/file_size"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/singer_picture"
+        android:gravity="center_vertical|center_horizontal"
+        android:clickable="false"
+        android:text="歌名" />
+
+    <TextView
+        android:id="@+id/singer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/music_name"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/music_name"
+        android:gravity="center_vertical|center_horizontal"
+        android:text="歌手"
+        android:clickable="false" />
+
+    <TextView
+        android:id="@+id/file_size"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/singer_picture"
+        android:layout_alignRight="@+id/music_name"
+        android:layout_toRightOf="@+id/singer_picture"
+        android:gravity="center_horizontal"
+        android:text="文件大小"
+         android:clickable="false"
+        android:textSize="10dp" />
+
+    <TextView
+        android:id="@+id/music_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/file_size"
+        android:layout_alignLeft="@+id/singer"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/singer"
+        android:gravity="center_horizontal"
+        android:text="播放时长"
+        android:clickable="false"
+        android:textSize="10dp" />
+
+    <ImageView
+        android:id="@+id/singer_picture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:alpha="100"
+        android:clickable="false"
+        android:src="@drawable/ic_mp_song_list" />
+
+</RelativeLayout>

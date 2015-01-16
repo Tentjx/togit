@@ -1,0 +1,19 @@
+package com.example.activity;
+
+import com.example.entity.LrcView;
+import com.example.localmusic.R;
+
+import android.app.Activity;
+import android.os.Bundle;
+
+public class LrcActivity extends Activity {
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+	// TODO Auto-generated method stub
+	super.onCreate(savedInstanceState);
+	setContentView(R.layout.lrc);
+	String musicPathString="/storage/sdcard/baidu/丁当-痛快.lrc";
+	LrcView lrcView=(LrcView) findViewById(R.id.showlrc);
+	
+}
+}

@@ -1,0 +1,12 @@
+package com.example.paints;
+
+import android.content.Context;
+import android.widget.TextView;
+
+public class LrcView extends TextView {
+
+	public LrcView(Context context) {
+		super(context);
+	}
+
+}

@@ -1,0 +1,7 @@
+package com.example.paints;
+
+import android.view.View;
+
+public class MyView extends View {
+
+}

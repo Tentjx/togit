@@ -187,7 +187,7 @@ Warning: Permanently added 'github.com,192.30.252.129' (RSA) to the list of know
       $git show <v0.1>
 
 033查看所有标签
-        $git tag
+        $git tag  
 
 034删除本地的tag 
     $ git tag -d v0.1

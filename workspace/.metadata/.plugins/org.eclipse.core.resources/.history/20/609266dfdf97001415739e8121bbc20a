@@ -1,0 +1,8 @@
+
+public class Srting {
+public static void main(String[] args) {
+	String s1="周杰伦-七里香.mp3";
+	int i=s1.lastIndexOf(".");
+	String s2=s1.substring(i, s1.length());
+}
+}

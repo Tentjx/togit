@@ -1,0 +1,65 @@
+package com.example.lr;
+
+import android.os.Bundle;
+import android.app.Activity;
+import android.graphics.Color;
+import android.view.Gravity;
+import android.view.Menu;
+import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
+import android.widget.TextView;
+
+public class MainActivity extends Activity {
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+        LinearLayout llLayout=new LinearLayout(this);
+        llLayout.setBackgroundColor(Color.GREEN);
+        LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+        
+       llLayout.setLayoutParams(params);
+        llLayout.setOrientation(LinearLayout.HORIZONTAL);
+        
+        TextView textView=new TextView(this);
+        textView.setText("练习用代码实现布局");
+        textView.setTextColor(Color.BLUE);
+        textView.setGravity(Gravity.CENTER);
+        
+        
+        TextView textView2=new TextView(this);
+        textView2.setText("margin");
+        textView2.setTextColor(Color.GRAY);
+        textView2.setGravity(Gravity.CENTER);
+        
+        TextView textView3=new TextView(this);
+        textView3.setText("margin");
+        textView3.setTextColor(Color.GRAY);
+        textView3.setGravity(Gravity.CENTER);
+        
+        TextView textView4=new TextView(this);
+        textView4.setText("margin");
+        textView4.setTextColor(Color.GRAY);
+        textView4.setGravity(Gravity.CENTER);
+        
+        LinearLayout.LayoutParams llLayoutParams=new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        llLayoutParams.setMargins(10, 10, 10, 0);
+        
+        
+        llLayout.addView(textView, llLayoutParams);
+        llLayout.addView(textView2, llLayoutParams);
+
+        llLayout.addView(textView3, llLayoutParams);
+        llLayout.addView(textView4, llLayoutParams);
+        setContentView(llLayout);
+         
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.main, menu);
+		return true;
+	}
+
+}
